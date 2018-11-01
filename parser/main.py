@@ -4,15 +4,14 @@
 import pandas as pd
 
 # helper functions
-# TODO: transforms the columns to int and string, and concat data with hora columns
-parseLine = lambda line : line
-
 removeSpaces = lambda string : string.strip()
 
 removeQuotes = lambda line : str(line).replace('"', '')
 
 # define constants
 DC_CODE = '58335'
+
+TURNO = '2'
 
 LABELS = [
     'data',
@@ -38,19 +37,23 @@ LABELS = [
     'votos_anulados'
 ]
 
-# TODO: added comments and print commands
-with open('detalhe_votacao_secao_2016_RJ.txt') as file:
+with open('detalhe_votacao_secao_2016_RJ.txt', mode = 'r') as file:
+    print('Init parse file')
     dataLines = []
 
+    print('Work in each line')
     for line in file:
         _line = removeQuotes(line)
         dataColumns = list(map(removeSpaces, _line.split(';')))
         dataColumns[0] = dataColumns[0].replace("b'", '')
         dataColumns[-1] = dataColumns[-1].replace("\\n'", '')
-        dataLines.append(parseLine(dataColumns))
+        dataLines.append(dataColumns)
 
+    print('Generate the DataFrame')
     df = pd.DataFrame.from_records(dataLines, columns=LABELS)
 
-    duqueCaxiasdf = df[df['codigo_municipio'] == DC_CODE]
+    print('Generate the DC city DataFrame')
+    duqueCaxiasdf = df[(df['codigo_municipio'] == DC_CODE) & (df['turno'] == TURNO)]
 
+    print('Generate .csv file')
     duqueCaxiasdf.to_csv('detalhe_votacao_secao_DC_2016_RJ.csv', index=False)

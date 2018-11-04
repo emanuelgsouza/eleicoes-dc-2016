@@ -2,6 +2,7 @@
 
 # imports
 import pandas as pd
+import numpy as np
 
 df = pd.read_csv('detalhe_votacao_secao_DC_2016_RJ.csv')
 
@@ -40,3 +41,27 @@ def getConsolidateNumbersByZonaSecao (df):
     items = df[['zona', 'secao', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS]].groupby(['zona', 'secao']).sum()
     items[NAO_CONSIDERADOS] = items[APTOS] - items[NOMINAIS]
     return items
+
+def generatePieChart (go, labels, values, title):
+    trace = go.Pie(labels=labels, values=values, textinfo='percent+value')
+    layout = go.Layout(title=title)
+    fig = go.Figure(data=[trace], layout=layout)
+    return fig
+
+def getProportion (value, total):
+    return np.true_divide(value, total) * 100
+
+def generateDataToStackedBar (go, x, props, labels, df):
+    traces = []
+    total = df['aptos']
+    for prop in props:
+        values = df[prop].values
+        proportion = getProportion(values, total)
+        traces.append(go.Bar(x = x, y = proportion, name = labels.get(prop)))
+    
+    return traces
+
+def generatedStackedBar (go, data, title, x, y):
+    layout = go.Layout(title = title, xaxis = { 'title': x }, yaxis = { 'title': y }, barmode='stack')
+    fig = go.Figure(data=data, layout=layout)
+    return fig

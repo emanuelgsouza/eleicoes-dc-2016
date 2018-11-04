@@ -12,6 +12,7 @@ BRANCOS = 'votos_brancos'
 NULOS = 'votos_nulos'
 ANULADOS = 'votos_anulados'
 NOMINAIS = 'votos_nominais'
+NAO_CONSIDERADOS = 'nao_considerados'
 
 # helpers
 getSum = lambda df, prop : df[prop].sum()
@@ -32,4 +33,10 @@ def getConsolidateNumbers (df):
 
 def getConsolidateNumbersByZona (df):
     zonas = df[['zona', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS]].groupby(['zona']).sum()
+    zonas[NAO_CONSIDERADOS] = zonas[APTOS] - zonas[NOMINAIS]
     return zonas
+
+def getConsolidateNumbersByZonaSecao (df):
+    items = df[['zona', 'secao', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS]].groupby(['zona', 'secao']).sum()
+    items[NAO_CONSIDERADOS] = items[APTOS] - items[NOMINAIS]
+    return items

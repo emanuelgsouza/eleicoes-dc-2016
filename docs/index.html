@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head><meta charset="utf-8" />
-<title>analysis</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
+<title>eleicoes-dc-analysis</title><script src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.1.10/require.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
 
 <style type="text/css">
@@ -11801,14 +11801,20 @@ div#notebook {
 <span class="n">py</span><span class="o">.</span><span class="n">init_notebook_mode</span><span class="p">(</span><span class="n">connected</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 <span class="kn">from</span> <span class="nn">eleicoes_analysis</span> <span class="k">import</span> <span class="o">*</span>
 
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;detalhe_votacao_secao_DC_2016_RJ.csv&#39;</span><span class="p">)</span>
+<span class="n">df_detalhe</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataset/detalhe_votacao_secao_DC_2016_RJ.csv&#39;</span><span class="p">)</span>
+<span class="n">df_votacao_candidato</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;dataset/votacao_munzona_DC_2016_RJ.csv&#39;</span><span class="p">)</span>
 
-<span class="n">numeros_consolidados</span> <span class="o">=</span> <span class="n">getConsolidateNumbers</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<span class="n">numeros_consolidados</span> <span class="o">=</span> <span class="n">getConsolidateNumbers</span><span class="p">(</span><span class="n">df_detalhe</span><span class="p">)</span>
 <span class="n">total_votos_validos</span> <span class="o">=</span> <span class="n">numeros_consolidados</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;validos&#39;</span><span class="p">)</span>
 <span class="n">total_votos_nao_considerados</span> <span class="o">=</span> <span class="n">numeros_consolidados</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nao_considerados&#39;</span><span class="p">)</span>
 <span class="n">total_abstencoes</span> <span class="o">=</span> <span class="n">numeros_consolidados</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;abstencoes&#39;</span><span class="p">)</span>
 <span class="n">total_brancos</span> <span class="o">=</span> <span class="n">numeros_consolidados</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;brancos&#39;</span><span class="p">)</span>
 <span class="n">total_nulos</span> <span class="o">=</span> <span class="n">numeros_consolidados</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;nulos&#39;</span><span class="p">)</span>
+
+<span class="n">numeros_consolidados_por_candidato</span> <span class="o">=</span> <span class="n">getConsolidateNumbersByCandidate</span><span class="p">(</span><span class="n">df_votacao_candidato</span><span class="p">)</span>
+<span class="n">nameVotes</span> <span class="o">=</span> <span class="n">getNameVotesByCandidate</span><span class="p">(</span><span class="n">numeros_consolidados_por_candidato</span><span class="p">)</span>
+<span class="n">cand1</span> <span class="o">=</span> <span class="n">nameVotes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cand1&#39;</span><span class="p">)</span>
+<span class="n">cand2</span> <span class="o">=</span> <span class="n">nameVotes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;cand2&#39;</span><span class="p">)</span>
 </pre></div>
 
 </div>
@@ -11887,7 +11893,97 @@ div#notebook {
 
 
 <div class="output_html rendered_html output_subarea ">
-<div id="9a9f1f4b-32ae-42ca-ac4f-bbaff3116795" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("9a9f1f4b-32ae-42ca-ac4f-bbaff3116795", [{"labels": ["Computados", "N\u00e3o Computados"], "textinfo": "percent+value", "values": [402030, 226134], "type": "pie", "uid": "e47c6f70-e058-11e8-b858-5cc9d399d62a"}], {"title": "O eleitorado divido em: eleitores (votos) computados e n\u00e3o computados"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+<div id="1b003e85-2bea-4f1c-a90a-23eeb857158f" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("1b003e85-2bea-4f1c-a90a-23eeb857158f", [{"labels": ["Computados", "N\u00e3o Computados"], "textinfo": "percent+value+label", "values": [402030, 226134], "type": "pie", "uid": "54618990-e0ec-11e8-a069-5cc9d399d62a"}], {"title": "O eleitorado divido em: eleitores (votos) computados e n\u00e3o computados"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Visualiza&#231;&#227;o-da-distribui&#231;&#227;o-dos-votos-dos-candidatos-em-segundo-turno">Visualiza&#231;&#227;o da distribui&#231;&#227;o dos votos dos candidatos em segundo turno<a class="anchor-link" href="#Visualiza&#231;&#227;o-da-distribui&#231;&#227;o-dos-votos-dos-candidatos-em-segundo-turno">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">total_votos_nao_considerados</span><span class="p">,</span> <span class="n">cand1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;votes&#39;</span><span class="p">),</span> <span class="n">cand2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;votes&#39;</span><span class="p">)]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="s1">&#39;Não Computados&#39;</span><span class="p">,</span> <span class="n">cand1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">cand2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)</span> <span class="p">]</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;O eleitorado divido em: eleitores votos por candidato e não computados&#39;</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">generatePieChart</span><span class="p">(</span><span class="n">go</span><span class="o">=</span><span class="n">go</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div id="408f668c-c43c-44bb-a794-5530b81e3a14" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("408f668c-c43c-44bb-a794-5530b81e3a14", [{"labels": ["N\u00e3o Computados", "DICA", "WASHINGTON REIS"], "textinfo": "percent+value+label", "values": [226134, 184230, 217800], "type": "pie", "uid": "54618991-e0ec-11e8-a069-5cc9d399d62a"}], {"title": "O eleitorado divido em: eleitores votos por candidato e n\u00e3o computados"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Como-a-elei&#231;&#227;o-considera-votos-v&#225;lidos,-como-ficou-o-resultado?">Como a elei&#231;&#227;o considera votos v&#225;lidos, como ficou o resultado?<a class="anchor-link" href="#Como-a-elei&#231;&#227;o-considera-votos-v&#225;lidos,-como-ficou-o-resultado?">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[4]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">cand1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;votes&#39;</span><span class="p">),</span> <span class="n">cand2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;votes&#39;</span><span class="p">)]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">cand1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">cand2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">)]</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;A divisão dos votos válidos na eleição em 2016&#39;</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">generatePieChart</span><span class="p">(</span><span class="n">go</span><span class="o">=</span><span class="n">go</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div id="feec1247-9cda-4dad-91d7-dcf7e4f6d722" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("feec1247-9cda-4dad-91d7-dcf7e4f6d722", [{"labels": ["DICA", "WASHINGTON REIS"], "textinfo": "percent+value+label", "values": [184230, 217800], "type": "pie", "uid": "54618992-e0ec-11e8-a069-5cc9d399d62a"}], {"title": "A divis\u00e3o dos votos v\u00e1lidos na elei\u00e7\u00e3o em 2016"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
 </div>
 
 </div>
@@ -11906,7 +12002,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[3]:</div>
+<div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">total_votos_validos</span><span class="p">,</span> <span class="n">total_abstencoes</span><span class="p">,</span> <span class="n">total_brancos</span><span class="p">,</span> <span class="n">total_nulos</span><span class="p">]</span>
@@ -11932,7 +12028,52 @@ div#notebook {
 
 
 <div class="output_html rendered_html output_subarea ">
-<div id="c8aeff2f-112d-46b6-81ed-6e5f6281e9ca" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("c8aeff2f-112d-46b6-81ed-6e5f6281e9ca", [{"labels": ["V\u00e1lidos", "Absten\u00e7\u00f5es", "Brancos", "Nulos"], "textinfo": "percent+value", "values": [402030, 149714, 18337, 58083], "type": "pie", "uid": "e58d920e-e058-11e8-b858-5cc9d399d62a"}], {"title": "Proporcao de eleitores em votos v\u00e1lidos e n\u00e3o computados"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+<div id="14919c50-37fc-4eaf-8c52-bd2078eb0284" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("14919c50-37fc-4eaf-8c52-bd2078eb0284", [{"labels": ["V\u00e1lidos", "Absten\u00e7\u00f5es", "Brancos", "Nulos"], "textinfo": "percent+value+label", "values": [402030, 149714, 18337, 58083], "type": "pie", "uid": "54618993-e0ec-11e8-a069-5cc9d399d62a"}], {"title": "Proporcao de eleitores em votos v\u00e1lidos e n\u00e3o computados"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h4 id="Visualiza&#231;&#227;o-da-distribui&#231;&#227;o-dos-votos-dos-candidatos-em-segundo-turno">Visualiza&#231;&#227;o da distribui&#231;&#227;o dos votos dos candidatos em segundo turno<a class="anchor-link" href="#Visualiza&#231;&#227;o-da-distribui&#231;&#227;o-dos-votos-dos-candidatos-em-segundo-turno">&#182;</a></h4>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="n">cand1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;votes&#39;</span><span class="p">),</span> <span class="n">cand2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;votes&#39;</span><span class="p">),</span> <span class="n">total_abstencoes</span><span class="p">,</span> <span class="n">total_brancos</span><span class="p">,</span> <span class="n">total_nulos</span><span class="p">]</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span> <span class="n">cand1</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="n">cand2</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">),</span> <span class="s1">&#39;Abstenções&#39;</span><span class="p">,</span> <span class="s1">&#39;Brancos&#39;</span><span class="p">,</span> <span class="s1">&#39;Nulos&#39;</span> <span class="p">]</span>
+
+<span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Proporcao de eleitores em votos por candidato e não computados&#39;</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">generatePieChart</span><span class="p">(</span><span class="n">go</span><span class="o">=</span><span class="n">go</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">,</span> <span class="n">values</span><span class="o">=</span><span class="n">values</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+<span class="n">py</span><span class="o">.</span><span class="n">iplot</span><span class="p">(</span><span class="n">fig</span><span class="p">)</span>
+</pre></div>
+
+</div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+<div class="prompt"></div>
+
+
+
+<div class="output_html rendered_html output_subarea ">
+<div id="a276906c-8aed-43a7-9ead-9aace1b45cb6" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("a276906c-8aed-43a7-9ead-9aace1b45cb6", [{"labels": ["DICA", "WASHINGTON REIS", "Absten\u00e7\u00f5es", "Brancos", "Nulos"], "textinfo": "percent+value+label", "values": [184230, 217800, 149714, 18337, 58083], "type": "pie", "uid": "54618994-e0ec-11e8-a069-5cc9d399d62a"}], {"title": "Proporcao de eleitores em votos por candidato e n\u00e3o computados"}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
 </div>
 
 </div>
@@ -11959,10 +12100,10 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[5]:</div>
+<div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">agrupado_por_zona</span> <span class="o">=</span> <span class="n">getConsolidateNumbersByZona</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">agrupado_por_zona</span> <span class="o">=</span> <span class="n">getConsolidateNumbersByZona</span><span class="p">(</span><span class="n">df_detalhe</span><span class="p">)</span>
 <span class="n">zonas</span> <span class="o">=</span> <span class="n">agrupado_por_zona</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
 
 <span class="n">_zonas</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">z</span> <span class="p">:</span> <span class="s1">&#39;Z-</span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">z</span><span class="p">),</span> <span class="n">zonas</span><span class="p">))</span>
@@ -11990,7 +12131,7 @@ div#notebook {
 
 
 <div class="output_html rendered_html output_subarea ">
-<div id="594fe400-6e2b-479b-86e0-771678684ad4" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("594fe400-6e2b-479b-86e0-771678684ad4", [{"name": "V\u00e1lidos", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [61.326262788579996, 63.59515715393332, 64.35028172249321, 65.52715476257062, 62.75046396778963, 63.20511559272012, 62.72070488603809, 69.05735574423844, 63.1549623926862, 63.208795219196205], "type": "bar", "uid": "ed8f2774-e058-11e8-b858-5cc9d399d62a"}, {"name": "N\u00e3o Considerados", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [38.673737211420004, 36.40484284606668, 35.64971827750679, 34.47284523742938, 37.24953603221037, 36.79488440727988, 37.2792951139619, 30.942644255761564, 36.8450376073138, 36.791204780803795], "type": "bar", "uid": "ed8f2775-e058-11e8-b858-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+<div id="09dba4cc-94cd-4eee-93db-6c099e4c18dc" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("09dba4cc-94cd-4eee-93db-6c099e4c18dc", [{"name": "V\u00e1lidos", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [61.326262788579996, 63.59515715393332, 64.35028172249321, 65.52715476257062, 62.75046396778963, 63.20511559272012, 62.72070488603809, 69.05735574423844, 63.1549623926862, 63.208795219196205], "type": "bar", "uid": "54618995-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "N\u00e3o Considerados", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [38.673737211420004, 36.40484284606668, 35.64971827750679, 34.47284523742938, 37.24953603221037, 36.79488440727988, 37.2792951139619, 30.942644255761564, 36.8450376073138, 36.791204780803795], "type": "bar", "uid": "54618996-e0ec-11e8-a069-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
 </div>
 
 </div>
@@ -12009,7 +12150,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[6]:</div>
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Proporção de eleitores em votos válidos e não considerados&#39;</span>
@@ -12035,7 +12176,7 @@ div#notebook {
 
 
 <div class="output_html rendered_html output_subarea ">
-<div id="3ef9b72d-b4a5-474e-b77c-4ae1b908f7ee" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("3ef9b72d-b4a5-474e-b77c-4ae1b908f7ee", [{"name": "Nominais", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [61.326262788579996, 63.59515715393332, 64.35028172249321, 65.52715476257062, 62.75046396778963, 63.20511559272012, 62.72070488603809, 69.05735574423844, 63.1549623926862, 63.208795219196205], "type": "bar", "uid": "b19b319c-e05b-11e8-b858-5cc9d399d62a"}, {"name": "Abstencoes", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [27.312657346403128, 25.41599570585078, 23.960599386561093, 22.920745008110075, 26.661633795728353, 22.653221839645845, 23.28885946791148, 20.965170680991164, 23.395041406032366, 25.201861228958535], "type": "bar", "uid": "b19b319d-e05b-11e8-b858-5cc9d399d62a"}, {"name": "Brancos", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [2.4130912207402644, 2.78821494602493, 2.7185882798038077, 3.0113541025784443, 2.2443458840552357, 3.3999016232169206, 3.7572617186162507, 2.207589672500433, 3.087091954314078, 2.575156242872132], "type": "bar", "uid": "b19b319e-e05b-11e8-b858-5cc9d399d62a"}, {"name": "Nulos", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [8.947988644276608, 8.200632194190971, 8.97053061114189, 8.540746126740869, 8.343556352426788, 10.741760944417116, 10.233173927434173, 7.769883902269971, 10.362904246967357, 9.01418730897313], "type": "bar", "uid": "b19b319f-e05b-11e8-b858-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+<div id="feffd30b-2b38-4d17-9be0-120c48a37aa7" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("feffd30b-2b38-4d17-9be0-120c48a37aa7", [{"name": "Nominais", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [61.326262788579996, 63.59515715393332, 64.35028172249321, 65.52715476257062, 62.75046396778963, 63.20511559272012, 62.72070488603809, 69.05735574423844, 63.1549623926862, 63.208795219196205], "type": "bar", "uid": "54618997-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "Abstencoes", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [27.312657346403128, 25.41599570585078, 23.960599386561093, 22.920745008110075, 26.661633795728353, 22.653221839645845, 23.28885946791148, 20.965170680991164, 23.395041406032366, 25.201861228958535], "type": "bar", "uid": "54618998-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "Brancos", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [2.4130912207402644, 2.78821494602493, 2.7185882798038077, 3.0113541025784443, 2.2443458840552357, 3.3999016232169206, 3.7572617186162507, 2.207589672500433, 3.087091954314078, 2.575156242872132], "type": "bar", "uid": "54618999-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "Nulos", "x": ["Z-66", "Z-77", "Z-78", "Z-79", "Z-103", "Z-126", "Z-127", "Z-128", "Z-194", "Z-200"], "y": [8.947988644276608, 8.200632194190971, 8.97053061114189, 8.540746126740869, 8.343556352426788, 10.741760944417116, 10.233173927434173, 7.769883902269971, 10.362904246967357, 9.01418730897313], "type": "bar", "uid": "5461899a-e0ec-11e8-a069-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
 </div>
 
 </div>
@@ -12063,11 +12204,11 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="c1"># ordenando por quantidade de aptos</span>
-<span class="nb">sorted</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;aptos&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">sorted</span> <span class="o">=</span> <span class="n">df_detalhe</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;aptos&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 <span class="n">items_grouped</span> <span class="o">=</span> <span class="n">getConsolidateNumbersByZonaSecao</span><span class="p">(</span><span class="nb">sorted</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">10</span><span class="p">])</span>
 <span class="n">zonas_secao</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span> <span class="p">:</span> <span class="s1">&#39;(z, s) - </span><span class="si">{}</span><span class="s1">&#39;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">items_grouped</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">))</span>
 <span class="n">props</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;votos_nominais&#39;</span><span class="p">,</span> <span class="s1">&#39;nao_considerados&#39;</span><span class="p">]</span>
@@ -12093,7 +12234,7 @@ div#notebook {
 
 
 <div class="output_html rendered_html output_subarea ">
-<div id="ab45fb15-b7ab-44d4-a121-cbe60cccb39d" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("ab45fb15-b7ab-44d4-a121-cbe60cccb39d", [{"name": "V\u00e1lidos", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [54.32900432900433, 61.5546218487395, 62.98701298701299, 62.10762331838565, 65.05494505494505, 59.1703056768559, 61.30434782608696, 71.70626349892008, 68.12227074235808, 57.7922077922078], "type": "bar", "uid": "c498dd7a-e05c-11e8-b858-5cc9d399d62a"}, {"name": "N\u00e3o Considerados", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [45.67099567099567, 38.445378151260506, 37.01298701298701, 37.89237668161435, 34.94505494505494, 40.8296943231441, 38.69565217391304, 28.293736501079913, 31.877729257641924, 42.2077922077922], "type": "bar", "uid": "c498dd7b-e05c-11e8-b858-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+<div id="0e1c9254-2139-411d-9d8f-00d2037afe12" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("0e1c9254-2139-411d-9d8f-00d2037afe12", [{"name": "V\u00e1lidos", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [54.32900432900433, 61.5546218487395, 62.98701298701299, 62.10762331838565, 65.05494505494505, 59.1703056768559, 61.30434782608696, 71.70626349892008, 68.12227074235808, 57.7922077922078], "type": "bar", "uid": "5461899b-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "N\u00e3o Considerados", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [45.67099567099567, 38.445378151260506, 37.01298701298701, 37.89237668161435, 34.94505494505494, 40.8296943231441, 38.69565217391304, 28.293736501079913, 31.877729257641924, 42.2077922077922], "type": "bar", "uid": "5461899c-e0ec-11e8-a069-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
 </div>
 
 </div>
@@ -12112,7 +12253,7 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-ipython3"><pre><span></span><span class="n">title</span> <span class="o">=</span> <span class="s1">&#39;Proporção de eleitores em votos válidos e não considerados&#39;</span>
@@ -12138,7 +12279,7 @@ div#notebook {
 
 
 <div class="output_html rendered_html output_subarea ">
-<div id="5828ab22-d75d-44ab-bda0-96c4c4a61790" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("5828ab22-d75d-44ab-bda0-96c4c4a61790", [{"name": "Nominais", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [61.326262788579996, 63.59515715393332, 64.35028172249321, 65.52715476257062, 62.75046396778963, 63.20511559272012, 62.72070488603809, 69.05735574423844, 63.1549623926862, 63.208795219196205], "type": "bar", "uid": "c6aa7632-e05c-11e8-b858-5cc9d399d62a"}, {"name": "Abstencoes", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [27.312657346403128, 25.41599570585078, 23.960599386561093, 22.920745008110075, 26.661633795728353, 22.653221839645845, 23.28885946791148, 20.965170680991164, 23.395041406032366, 25.201861228958535], "type": "bar", "uid": "c6aa7633-e05c-11e8-b858-5cc9d399d62a"}, {"name": "Brancos", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [2.4130912207402644, 2.78821494602493, 2.7185882798038077, 3.0113541025784443, 2.2443458840552357, 3.3999016232169206, 3.7572617186162507, 2.207589672500433, 3.087091954314078, 2.575156242872132], "type": "bar", "uid": "c6aa7634-e05c-11e8-b858-5cc9d399d62a"}, {"name": "Nulos", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [8.947988644276608, 8.200632194190971, 8.97053061114189, 8.540746126740869, 8.343556352426788, 10.741760944417116, 10.233173927434173, 7.769883902269971, 10.362904246967357, 9.01418730897313], "type": "bar", "uid": "c6aa7635-e05c-11e8-b858-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
+<div id="9f92c288-6601-4bae-bce8-947a4a7a84cb" style="height: 525px; width: 100%;" class="plotly-graph-div"></div><script type="text/javascript">require(["plotly"], function(Plotly) { window.PLOTLYENV=window.PLOTLYENV || {};window.PLOTLYENV.BASE_URL="https://plot.ly";Plotly.newPlot("9f92c288-6601-4bae-bce8-947a4a7a84cb", [{"name": "Nominais", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [61.326262788579996, 63.59515715393332, 64.35028172249321, 65.52715476257062, 62.75046396778963, 63.20511559272012, 62.72070488603809, 69.05735574423844, 63.1549623926862, 63.208795219196205], "type": "bar", "uid": "5461899d-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "Abstencoes", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [27.312657346403128, 25.41599570585078, 23.960599386561093, 22.920745008110075, 26.661633795728353, 22.653221839645845, 23.28885946791148, 20.965170680991164, 23.395041406032366, 25.201861228958535], "type": "bar", "uid": "5461899e-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "Brancos", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [2.4130912207402644, 2.78821494602493, 2.7185882798038077, 3.0113541025784443, 2.2443458840552357, 3.3999016232169206, 3.7572617186162507, 2.207589672500433, 3.087091954314078, 2.575156242872132], "type": "bar", "uid": "5461899f-e0ec-11e8-a069-5cc9d399d62a"}, {"name": "Nulos", "x": ["(z, s) - (66, 9)", "(z, s) - (66, 170)", "(z, s) - (79, 25)", "(z, s) - (79, 26)", "(z, s) - (79, 27)", "(z, s) - (79, 28)", "(z, s) - (79, 29)", "(z, s) - (79, 562)", "(z, s) - (79, 599)", "(z, s) - (200, 48)"], "y": [8.947988644276608, 8.200632194190971, 8.97053061114189, 8.540746126740869, 8.343556352426788, 10.741760944417116, 10.233173927434173, 7.769883902269971, 10.362904246967357, 9.01418730897313], "type": "bar", "uid": "546189a0-e0ec-11e8-a069-5cc9d399d62a"}], {"barmode": "stack", "title": "Propor\u00e7\u00e3o de eleitores em votos v\u00e1lidos e n\u00e3o considerados", "xaxis": {"title": "Zonas"}, "yaxis": {"title": "% de registros"}}, {"showLink": true, "linkText": "Export to plot.ly"})});</script>
 </div>
 
 </div>
@@ -12146,6 +12287,15 @@ div#notebook {
 </div>
 </div>
 
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div>
+<div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Refer&#234;ncias">Refer&#234;ncias<a class="anchor-link" href="#Refer&#234;ncias">&#182;</a></h2><p>Resultado das eleições em <a href="http://dados.gov.br/dataset/resultado-das-eleicoes">dados.gov</a></p>
+
+</div>
+</div>
 </div>
     </div>
   </div>

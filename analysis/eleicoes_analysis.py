@@ -4,8 +4,6 @@
 import pandas as pd
 import numpy as np
 
-df = pd.read_csv('detalhe_votacao_secao_DC_2016_RJ.csv')
-
 # constants
 APTOS = 'aptos'
 ABSTENCOES = 'abstencoes'

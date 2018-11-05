@@ -41,7 +41,7 @@ def getConsolidateNumbersByZonaSecao (df):
     return items
 
 def generatePieChart (go, labels, values, title):
-    trace = go.Pie(labels=labels, values=values, textinfo='percent+value')
+    trace = go.Pie(labels=labels, values=values, textinfo='percent+value+label')
     layout = go.Layout(title=title)
     fig = go.Figure(data=[trace], layout=layout)
     return fig
@@ -63,3 +63,20 @@ def generatedStackedBar (go, data, title, x, y):
     layout = go.Layout(title = title, xaxis = { 'title': x }, yaxis = { 'title': y }, barmode='stack')
     fig = go.Figure(data=data, layout=layout)
     return fig
+
+def getConsolidateNumbersByCandidate (df):
+    props = [ 'nome_urna_candidato', 'votos' ]
+    return df[props].groupby('nome_urna_candidato').sum()
+
+def factoryNameVote (name, votes):
+    return {
+        'name': name,
+        'votes': votes
+    }
+
+def getNameVotesByCandidate (df):
+    values = df.index.values
+    return {
+        'cand1': factoryNameVote(name=values[0], votes=df.iloc[0].values[0]),
+        'cand2': factoryNameVote(name=values[1], votes=df.iloc[1].values[0])
+    }

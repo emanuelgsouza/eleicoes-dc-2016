@@ -80,3 +80,41 @@ def getNameVotesByCandidate (df):
         'cand1': factoryNameVote(name=values[0], votes=df.iloc[0].values[0]),
         'cand2': factoryNameVote(name=values[1], votes=df.iloc[1].values[0])
     }
+
+def getConsolidateInformationByZona (df_votos, df_candidatos):
+    dfl = df_candidatos[['zona','nome_urna_candidato','votos']].groupby(['zona','nome_urna_candidato']).sum()
+
+    indexes = df_votos.index.values
+    
+    dicionario = {
+        'zona': [],
+        'abstencoes': [],
+        'aptos': [],
+        'votos_nominais': [],
+        'votos_brancos': [],
+        'votos_nulos': [],
+        'votos_anulados': [],
+        'nao_considerados': []
+    }
+    
+    for index in indexes:
+        (zona) = index
+        dicionario.get('zona').append(zona)
+        keys = df_votos.loc[zona].index.values
+    
+        for key in keys:
+            val = df_votos.loc[zona][key]
+            dicionario.get(key).append(val)
+    
+    candidate_indexes = dfl.index.values
+    
+    for index in candidate_indexes:
+        (zona, nome_candidato) = index
+        val = dfl.loc[zona].loc[nome_candidato]['votos']
+        
+        if nome_candidato in dicionario:
+            dicionario.get(nome_candidato).append(val)
+        else:
+            dicionario[nome_candidato] = [val]
+    
+    return pd.DataFrame(dicionario)

@@ -14,3 +14,15 @@ cd ../docs
 
 # rename file to entry point
 mv eleicoes-dc-analysis.html index.html
+
+# come in back to root folder
+cd ..
+
+# add index.html to staging (GIT)
+git add docs/index.html
+
+# commit
+git commit -m"update docs"
+
+# push
+git push

@@ -1,16 +1,13 @@
-# eleicoes-dc-2016
+# Eleicoes DC 2016
 
-An analysis of the municipal elections in Duque de Caxias city, in 2016
+Uma análise das eleições em segundo turno para prefeito da cidade de Duque de Caxias, RJ, em 2016
 
-## Repository organization
+## Como o repositório está organizado?
 
-This repository is organized like this:
+* A pasta `parser`, contem o script que gera o dataset de dados a partir do dataset do TSE, em formto txt.
+* A pasta `analysis` contem o jupyter notebook com a análise dos dados.
 
-* the `parser` folder contains the scripts to generate the datasets from .txt files
-* the `analysis` folder contains the scripts and notebooks that will read the datasets and generate the analysis.
+## Perguntas a serem respondidas?
 
-## Development
-
-* Download the .zip file at http://dados.gov.br/dataset/resultado-das-eleicoes. The file name is `Detalhe da apuração por seção eleitoral 2016`
-* Extract the .zip file, and copy `detalhe_votacao_secao_2016_RJ.txt` to parser folder
-* Run `main.py`, and copy the `detalhe_votacao_secao_DC_2016_RJ.csv` generated file to analysis folder.
+* Qual a proporção de votos válidos em relação aos que não foram computados (incluindo as abstenções)?
+* Qual a proporção de votos dos candidatos em relação aos que não foram computados (incluindo as abstenções)?

@@ -1,0 +1,16 @@
+# -*- coding: utf-8 -*-
+
+from detalhe_votacao import buildVotacaoSecaoDataframe
+from votacao_munzona import buildVotacaoZonaDataframe
+
+class FactoryDataframe:
+    def __init__ (self, file, codMun, turno = 2):
+        self.file = file
+        self.cod_mun = codMun
+        self.turno = turno
+    
+    def buildSecaoDataframe (self):
+        return buildVotacaoSecaoDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)
+    
+    def buildZonaDataframe (self):
+        return buildVotacaoZonaDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)

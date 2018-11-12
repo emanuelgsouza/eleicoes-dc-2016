@@ -1,6 +1,6 @@
 *.txt
-parser/*.csv
+parser/**/*.csv
 
-*/__pycache__/*
+*/**/__pycache__/*
 
 */.ipynb_checkpoints/*

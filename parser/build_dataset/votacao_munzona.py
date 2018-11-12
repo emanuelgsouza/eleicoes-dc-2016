@@ -40,11 +40,15 @@ LABELS = [
     'transito'
 ]
 
-with open('votacao_candidato_munzona_2016_RJ.txt', mode = 'rb') as file:
-    dataLines = parserFile(file)
-    print(dataLines)
-    print('Generate the DC city DataFrame')
-    duqueCaxiasdf = generateRegionDataset(dataLines=dataLines, columns=LABELS, codMun=DC_CODE, turn=TURNO)
+LABELS_TO_BUILD = [
+    'uf',
+    'codigo_municipio',
+    'zona',
+    'nome_urna_candidato',
+    'votos'
+]
 
-    print('Generate .csv file')
-    duqueCaxiasdf.to_csv('votacao_munzona_DC_2016_RJ.csv', index=False)
+def buildVotacaoZonaDataframe (file, codMun, turno):
+    dataLines = parserFile(file)
+    df = generateRegionDataset(dataLines=dataLines, columns=LABELS, codMun=codMun, turn=turno)
+    return df[LABELS_TO_BUILD]

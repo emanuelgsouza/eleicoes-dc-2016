@@ -40,3 +40,6 @@ def parserFileToGenerate (file, codMun, turn):
             dataLines.append(dataColumns)
         
     return dataLines
+
+def getNameInProp (prop):
+    return list(prop.split('_'))[1]

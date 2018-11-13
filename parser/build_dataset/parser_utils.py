@@ -21,9 +21,9 @@ def parserFile (file):
 def generateDataset (dataLines, columns):
     return pd.DataFrame.from_records(dataLines, columns=columns)
     
-def generateRegionDataset (dataLines, columns, codMun, turn):
+def generateRegionDataset (dataLines, columns, codMun, turn = '2', use_turn = True):
     df = generateDataset(dataLines=dataLines, columns=columns)
-    if turn:
+    if turn and use_turn:
         return df[(df['codigo_municipio'] == codMun) & (df['turno'] == turn)]
     
     return df[df['codigo_municipio'] == codMun]

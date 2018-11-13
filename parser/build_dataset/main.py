@@ -2,6 +2,7 @@
 
 from detalhe_votacao import buildVotacaoSecaoDataframe
 from votacao_munzona import buildVotacaoZonaDataframe
+from boletim_urna import buildBoletimUrnaDataframe
 
 class FactoryDataframe:
     def __init__ (self, file, codMun, turno = 2):
@@ -14,3 +15,6 @@ class FactoryDataframe:
     
     def buildZonaDataframe (self):
         return buildVotacaoZonaDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)
+    
+    def buildBoletimUrnaDataframe (self):
+        return buildBoletimUrnaDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)

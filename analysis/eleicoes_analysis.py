@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # imports
-import pandas as pd
 import numpy as np
 
 # constants
@@ -24,20 +23,18 @@ def factoryData (df):
         'nulos': getSum(df, NULOS),
         'anulados': getSum(df, ANULADOS),
         'validos': getSum(df, NOMINAIS),
-        'nao_considerados': getSum(df, APTOS) - getSum(df, NOMINAIS)
+        'nao_considerados': getSum(df, NAO_CONSIDERADOS)
     }
 
 def getConsolidateNumbers (df):
     return factoryData(df)
 
 def getConsolidateNumbersByZona (df):
-    zonas = df[['zona', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS]].groupby(['zona']).sum()
-    zonas[NAO_CONSIDERADOS] = zonas[APTOS] - zonas[NOMINAIS]
+    zonas = df[['zona', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS, NAO_CONSIDERADOS]].groupby(['zona']).sum()
     return zonas
 
 def getConsolidateNumbersByZonaSecao (df):
-    items = df[['zona', 'secao', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS]].groupby(['zona', 'secao']).sum()
-    items[NAO_CONSIDERADOS] = items[APTOS] - items[NOMINAIS]
+    items = df[['zona', 'secao', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS, NAO_CONSIDERADOS]].groupby(['zona', 'secao']).sum()
     return items
 
 def generatePieChart (go, labels, values, title):
@@ -65,8 +62,8 @@ def generatedStackedBar (go, data, title, x, y):
     return fig
 
 def getConsolidateNumbersByCandidate (df):
-    props = [ 'nome_urna_candidato', 'votos' ]
-    return df[props].groupby('nome_urna_candidato').sum()
+    props = [ 'DICA', 'WASHINGTON REIS' ]
+    return df[props].sum()
 
 def factoryNameVote (name, votes):
     return {
@@ -75,46 +72,31 @@ def factoryNameVote (name, votes):
     }
 
 def getNameVotesByCandidate (df):
-    values = df.index.values
+    indexes = list(df.index)
     return {
-        'cand1': factoryNameVote(name=values[0], votes=df.iloc[0].values[0]),
-        'cand2': factoryNameVote(name=values[1], votes=df.iloc[1].values[0])
+        'cand1': factoryNameVote(name=indexes[0], votes=df[indexes[0]]),
+        'cand2': factoryNameVote(name=indexes[1], votes=df[indexes[1]])
     }
 
-def getConsolidateInformationByZona (df_votos, df_candidatos):
-    dfl = df_candidatos[['zona','nome_urna_candidato','votos']].groupby(['zona','nome_urna_candidato']).sum()
+def generateScatterTrace (df, go, prop):
+    _count = len(df)
+    return go.Scatter(x = list(range(_count)), y = df[prop], mode = 'markers')
 
-    indexes = df_votos.index.values
-    
-    dicionario = {
-        'zona': [],
-        'abstencoes': [],
-        'aptos': [],
-        'votos_nominais': [],
-        'votos_brancos': [],
-        'votos_nulos': [],
-        'votos_anulados': [],
-        'nao_considerados': []
-    }
-    
-    for index in indexes:
-        (zona) = index
-        dicionario.get('zona').append(zona)
-        keys = df_votos.loc[zona].index.values
-    
-        for key in keys:
-            val = df_votos.loc[zona][key]
-            dicionario.get(key).append(val)
-    
-    candidate_indexes = dfl.index.values
-    
-    for index in candidate_indexes:
-        (zona, nome_candidato) = index
-        val = dfl.loc[zona].loc[nome_candidato]['votos']
-        
-        if nome_candidato in dicionario:
-            dicionario.get(nome_candidato).append(val)
-        else:
-            dicionario[nome_candidato] = [val]
-    
-    return pd.DataFrame(dicionario)
+def generateScatterLayout (df, go, prop, title):
+    _count = len(df)
+    _mean = df[prop].mean()
+    return go.Layout(title=title, yaxis={'title':'Numeros absolutos'}, xaxis={'title': 'Seção'}, shapes= [
+        # Line Horizontal
+        {
+            'type': 'line',
+            'x0': _mean,
+            'y0': _mean,
+            'x1': _count,
+            'y1': _mean,
+        }
+    ])
+
+def generateScatterFigure (df, go, prop, title):
+    data = [ generateScatterTrace(df, go, prop) ]
+    layout = generateScatterLayout(df, go, prop, title)
+    return go.Figure(data=data, layout=layout)

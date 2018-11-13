@@ -13,8 +13,5 @@ class FactoryDataframe:
     def buildSecaoDataframe (self):
         return buildVotacaoSecaoDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)
     
-    def buildZonaDataframe (self):
-        return buildVotacaoZonaDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)
-    
     def buildBoletimUrnaDataframe (self):
         return buildBoletimUrnaDataframe(file=self.file, codMun=self.cod_mun, turno=self.turno)

@@ -6,6 +6,7 @@ sys.path.append('./build_dataset')
 import os
 from shutil import copy2
 import pandas as pd
+import click
 
 from build_dataset.main import FactoryDataframe
 from build_dataset.detalhe_votacao import addPercentualColumns
@@ -19,8 +20,10 @@ DC_CODE = '58335'
 TURNO = '2'
 
 class Cli():
-    def __init__(self):
+    def __init__(self, municipio=DC_CODE, turno=TURNO):
         self.csv_name = None
+        self.municipio = municipio
+        self.turno = turno
         
     def getCSVName(self, prop):
         return "{}_{}.csv".format(prop, self.getDistrictName())
@@ -32,7 +35,7 @@ class Cli():
         df_secao = None
 
         with open('data/detalhe_votacao_secao_2016_RJ.txt', mode='rb') as file:
-            _FactoryDataframe = FactoryDataframe(file=file, codMun=DC_CODE, turno=TURNO)
+            _FactoryDataframe = FactoryDataframe(file=file, codMun=self.municipio, turno=self.turno)
             df_secao = _FactoryDataframe.buildSecaoDataframe()
         
         df = addPercentualColumns(df_secao)
@@ -43,7 +46,7 @@ class Cli():
         df = None
 
         with open('data/bweb_2t_RJ_31102016134235.txt', mode='rb') as file:
-            _FactoryDataframe = FactoryDataframe(file=file, codMun=DC_CODE, turno=TURNO)
+            _FactoryDataframe = FactoryDataframe(file=file, codMun=self.municipio, turno=self.turno)
             df = _FactoryDataframe.buildBoletimUrnaDataframe()
         
         return df
@@ -88,8 +91,11 @@ class Cli():
         print('Copy votacao_by_zona files')
         self.copyFiles(MUNZONA_FILE_NAME)
 
-def main():
-   cli = Cli()
+@click.command()
+@click.option('--municipio', default=DC_CODE, help='A municipio para uso (somente Rio de Janeiro)')
+@click.option('--turno', default=TURNO, help='Turno que será analisado')
+def main(municipio, turno):
+   cli = Cli(municipio=municipio, turno=turno)
 
    cli.run()
 

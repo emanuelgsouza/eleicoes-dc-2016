@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 from detalhe_votacao import buildVotacaoSecaoDataframe
-from votacao_munzona import buildVotacaoZonaDataframe
 from boletim_urna import buildBoletimUrnaDataframe
 
 class FactoryDataframe:

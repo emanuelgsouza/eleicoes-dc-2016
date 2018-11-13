@@ -69,6 +69,7 @@ def buildVotacaoSecaoDataframe (file, codMun, turno):
     df = generateRegionDataset(dataLines=dataLines, columns=LABELS, codMun=codMun, turn=turno)
     processedDf = df[LABELS_TO_BUILD]
     processedDf = processedDf[LABELS_TO_NUMERIC].apply(pd.to_numeric)
+    processedDf['nao_considerados'] = processedDf['aptos'] - processedDf['votos_nominais']
     return processedDf
 
 def insertProp (df, prop, name):

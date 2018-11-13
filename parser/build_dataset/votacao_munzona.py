@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 
 # import libraries
-from parser_utils import parserFile, generateRegionDataset
 import pandas as pd
 
 LABELS_TO_REMOVE = [

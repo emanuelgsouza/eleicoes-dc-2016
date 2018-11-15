@@ -11,3 +11,11 @@ Uma análise das eleições em segundo turno para prefeito da cidade de Duque de
 
 * Qual a proporção de votos válidos em relação aos que não foram computados (incluindo as abstenções)?
 * Qual a proporção de votos dos candidatos em relação aos que não foram computados (incluindo as abstenções)?
+
+## Metodologia adotada (passo a passo)
+
+## Tecnologias usadas (bibliotecas do python)
+
+## Referencias das informações brutas
+
+* O dataset x veio do link y

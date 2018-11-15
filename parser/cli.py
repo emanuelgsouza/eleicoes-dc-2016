@@ -12,10 +12,13 @@ from build_dataset.main import FactoryDataframe
 from build_dataset.detalhe_votacao import addPercentualColumns
 from build_dataset.votacao_munzona import buildVotacaoZonaDataframe
 from build_dataset.boletim_urna import getConsolidateCandidates, insertCandidateInformation
+from build_dataset.locais_votacao import runProcess
 
 # define constants
 DETALHE_FILE_NAME = 'detalhe_votacao_secao'
 MUNZONA_FILE_NAME = 'detalhe_votacao_zona'
+LOCAL_VOTACAO_SECAO = 'detalhe_secao_localizacao'
+LOCAL_VOTACAO_CONSOLIDADO = 'detalhe_votacao_localizacao_consolidado'
 DC_CODE = '58335'
 TURNO = '2'
 
@@ -84,12 +87,29 @@ class Cli():
 
         print('Save votacao_by_zona')
         self.saveDataframe(df_zona, MUNZONA_FILE_NAME, use_index=True)
+        
+        df_secoes = pd.read_csv('temp/detalhe_votacao_secao_duque_de_caxias.csv')
+        
+        df_location = pd.read_excel('data/secao_local_votacao_29_09_2016.xls')
+        ( secoes_location, locations, locations_with_coordinates ) = runProcess(df_location=df_location, df_secoes=df_secoes)
+        
+        print('Save detalhe votacao secao with localization information')
+        self.saveDataframe(pd.DataFrame(secoes_location), LOCAL_VOTACAO_SECAO)
+        
+        print('Save detalhe localizacao consolidado')
+        self.saveDataframe(pd.DataFrame(locations_with_coordinates), LOCAL_VOTACAO_CONSOLIDADO)
 
         print('Copy detalhe_votacao_secao files')
         self.copyFiles(DETALHE_FILE_NAME)
 
         print('Copy votacao_by_zona files')
         self.copyFiles(MUNZONA_FILE_NAME)
+        
+        print('Copy detalhe votacao secao with localization information')
+        self.copyFiles(LOCAL_VOTACAO_SECAO)
+
+        print('Copy detalhe localizacao consolidado')
+        self.copyFiles(LOCAL_VOTACAO_CONSOLIDADO)
 
 @click.command()
 @click.option('--municipio', default=DC_CODE, help='A municipio para uso (somente Rio de Janeiro)')

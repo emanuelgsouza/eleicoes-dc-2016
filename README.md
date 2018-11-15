@@ -7,6 +7,13 @@ Uma análise das eleições em segundo turno para prefeito da cidade de Duque de
 * A pasta `parser`, contem o script que gera o dataset de dados a partir do dataset do TSE, em formto txt.
 * A pasta `analysis` contem o jupyter notebook com a análise dos dados.
 
+## Como conferir?
+
+É só acessar os notebooks já convertidos para HTML:
+
+* [Análises iniciais](https://emanuelgdev.com.br/eleicoes-dc-2016)
+* [Análises espaciais](https://emanuelgdev.com.br/eleicoes-dc-2016/geographic.html)
+
 ## Perguntas a serem respondidas?
 
 * Qual a proporção de votos válidos em relação aos que não foram computados (incluindo as abstenções)?

@@ -37,8 +37,17 @@ def getConsolidateNumbersByZonaSecao (df):
     items = df[['zona', 'secao', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS, NAO_CONSIDERADOS]].groupby(['zona', 'secao']).sum()
     return items
 
-def generatePieChart (go, labels, values, title):
-    trace = go.Pie(labels=labels, values=values, textinfo='percent+value+label')
+def generatePieChart (go, labels, values, title, marker = dict()):
+    textfont = {
+        'size': 15
+    }
+    trace = go.Pie(
+        labels=labels,
+        values=values,
+        textinfo='percent+value+label',
+        textfont=textfont,
+        marker=marker
+    )
     layout = go.Layout(title=title)
     fig = go.Figure(data=[trace], layout=layout)
     return fig

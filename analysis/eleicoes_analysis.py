@@ -37,6 +37,14 @@ def getConsolidateNumbersByZonaSecao (df):
     items = df[['zona', 'secao', APTOS, NOMINAIS, ABSTENCOES, BRANCOS, NULOS, ANULADOS, NAO_CONSIDERADOS]].groupby(['zona', 'secao']).sum()
     return items
 
+def getStatisticAnalysisByProp (df, prop):
+    return {
+        'mean': round(df[prop].mean()),
+        'median': round(df[prop].median()),
+        'std': round(df.loc[:,prop].std()),
+        'var': round(df.loc[:,prop].var())
+    }
+
 def generatePieChart (go, labels, values, title, marker = dict()):
     textfont = {
         'size': 15
@@ -61,7 +69,18 @@ def generateDataToStackedBar (go, x, props, labels, df):
     for prop in props:
         values = df[prop].values
         proportion = getProportion(values, total)
-        traces.append(go.Bar(x = x, y = proportion, name = labels.get(prop)))
+        proportion_texts = list(
+            map(lambda x : '{}%'.format(round(x, 2)), proportion)
+        )
+        traces.append(
+            go.Bar(
+                x = x,
+                y = proportion,
+                hoverinfo = 'text',
+                hovertext = proportion_texts,
+                name = labels.get(prop)
+            )
+        )
     
     return traces
 

@@ -52,7 +52,7 @@ def generatePieChart (go, labels, values, title, marker = dict()):
     trace = go.Pie(
         labels=labels,
         values=values,
-        textinfo='percent+value+label',
+        textinfo='percent+value',
         textfont=textfont,
         marker=marker
     )
@@ -106,6 +106,8 @@ def getNameVotesByCandidate (df):
         'cand2': factoryNameVote(name=indexes[1], votes=df[indexes[1]])
     }
 
+# Scatter Graph
+
 def generateScatterTrace (df, go, prop):
     _count = len(df)
     return go.Scatter(x = list(range(_count)), y = df[prop], mode = 'markers')
@@ -113,18 +115,50 @@ def generateScatterTrace (df, go, prop):
 def generateScatterLayout (df, go, prop, title):
     _count = len(df)
     _mean = df[prop].mean()
-    return go.Layout(title=title, yaxis={'title':'Numeros absolutos'}, xaxis={'title': 'Seção'}, shapes= [
+    return go.Layout(title=title, yaxis={'title':'Numeros absolutos'}, xaxis={'title': 'Seção'}, shapes = [
         # Line Horizontal
         {
             'type': 'line',
-            'x0': _mean,
+            'x0': 0,
             'y0': _mean,
             'x1': _count,
-            'y1': _mean,
+            'y1': _mean
         }
     ])
 
 def generateScatterFigure (df, go, prop, title):
     data = [ generateScatterTrace(df, go, prop) ]
     layout = generateScatterLayout(df, go, prop, title)
+    return go.Figure(data=data, layout=layout)
+
+# Histogram Graph
+
+def generateHistogramTrace (df, go, prop):
+    x = df[prop]
+    return go.Histogram(x = x)
+
+def generateHistogramLayout (df, go, prop, title, increment_max = 30):
+    _mean = round(df[prop].mean())
+    _max = df[prop].max() + increment_max
+    return go.Layout(
+        title=title,
+        yaxis={'title':'Proporção'},
+        xaxis={'title': 'Eleitores'},
+        shapes= [
+            # Line Horizontal
+            {
+                'type': 'line',
+                'x0': _mean,
+                'y0': 0,
+                'x1': _mean,
+                'y1': _max,
+                'line': {
+                    'dash': 'dash'
+                }
+            }
+        ])
+
+def generateHistogramFigure (df, go, prop, title, increment_max = 30):
+    data = [ generateHistogramTrace(df, go, prop) ]
+    layout = generateHistogramLayout(df, go, prop, title, increment_max)
     return go.Figure(data=data, layout=layout)

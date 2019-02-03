@@ -4,8 +4,7 @@ Uma análise das eleições em segundo turno para prefeito da cidade de Duque de
 
 ## Como o repositório está organizado?
 
-* A pasta `parser`, contem o script que gera o dataset de dados a partir do dataset do TSE, em formto txt. (Será movida para outro repositório)
-* A pasta `analysis` contem o jupyter notebook com a análise dos dados.
+* A pasta `notebooks` contem o jupyter notebook com a análise dos dados.
 
 ## Como conferir?
 
@@ -22,3 +21,5 @@ Uma análise das eleições em segundo turno para prefeito da cidade de Duque de
 ## De onde vieram as informações?
 
 * Os dados da eleição de 2016 vieram do Repositório de Dados Públicos das eleições, o link está [aqui](http://www.tse.jus.br/eleicoes/estatisticas/repositorio-de-dados-eleitorais-1/repositorio-de-dados-eleitorais)
+
+O CSVs gerados, e que se encontram na pasta `notebooks/dataset`, foram gerados pelo script de parser que se encontra [neste repositorio](https://github.com/emanuelgsouza/eleicoes-parser)

@@ -1,7 +1,7 @@
 # Setup analysis to docs folder
 
 # enter in analysis folder
-cd analysis
+cd notebooks
 
 # convert ipynb file to html file
 $HOME/anaconda3/bin/jupyter nbconvert --to html eleicoes-dc-analysis.ipynb
